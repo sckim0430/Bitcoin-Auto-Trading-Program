@@ -1,7 +1,0 @@
-requests
-future
-simplejson
-telepot
-tendo
-pytz
-python3-bs4
