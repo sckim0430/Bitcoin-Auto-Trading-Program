@@ -1,4 +1,5 @@
-
+"""Upbit Auto Trading System
+"""
 import multiprocessing
 from os import system
 import sys
@@ -17,7 +18,11 @@ upbit = pu.Upbit(access,secret)
 ##########################################################################################################
 
 def get_buy_markets():  
+    """Returns a List of Coins Already Ordered or Purchased
 
+    Returns:
+        list, list: Already Purchased Coin List, Ordered Coin List
+    """
     buy_markets = []
     ordered_markets = []
 
@@ -34,6 +39,11 @@ def get_buy_markets():
     return buy_markets,ordered_markets
 
 def get_total_balance():
+    """Returns Total Assets
+
+    Returns:
+        float: Total Asset
+    """
     balance_f = 0.0
 
     for balance in upbit.get_balances():
@@ -45,12 +55,33 @@ def get_total_balance():
     return balance_f
 
 def get_balance(key):
+    """Returns A Certain Amount of Coins or Amount Available to Order
+
+    Args:
+        key (str): "Coin Name" or "KRW"
+
+    Returns:
+        float: Amount Coin or Amount Available to Order
+    """
     return upbit.get_balance(key)
 
 def get_balances():
+    """Returns Total Assets with (Amount of Coin, Amount Avaliable to Order)
+
+    Returns:
+        dict: Amount of Coin, Amount Avaliable to Order
+    """
     return upbit.get_balances()
 
 def get_sell_val(price):
+    """Returns Sell Price Unit
+
+    Args:
+        price (float): coin price
+
+    Returns:
+        float: Sell Price Unit
+    """
     price = float(price)
 
     if price >= 2000000:
@@ -75,27 +106,65 @@ def get_sell_val(price):
     return sell_val
 
 def buy_market_order(market,price):
+    """Buy Coin
+
+    Args:
+        market (str): coin name to buy
+        price (float): price to buy
+    """
     upbit.buy_market_order(market,price)
 
 def sell_market_order(market,balance):
+    """Sell Coin
+
+    Args:
+        market (str): coin name to buy
+        balance (float): price to buy
+    """
     upbit.sell_market_order(market,balance)
 
 def buy_worker(file,FEE,MIN_ORDER_PRICE,BUY_STACK,SLEEP_TIME,CHECK_TIME,DAY_CHECK_TIME,
             MAX_COIN_COUNT,markets,market_count,day_markets):
+    """Buy Module
+
+    Args:
+        file (str): buy module file path
+        FEE (float): ㅊommission
+        MIN_ORDER_PRICE (int): min order price
+        BUY_STACK (float): buy module parameter
+        SLEEP_TIME (float): delay time
+        CHECK_TIME (int): time to check the amount of change
+        DAY_CHECK_TIME (int): time to check the amount of coin price change
+        MAX_COIN_COUNT (int): max coin number
+        markets (list): already have coin list
+        market_count (int): total coin number in market
+        day_markets (list): target coin list
+    """
     try:
         markets = str(markets).replace(" ","")
         day_markets = str(day_markets).replace(" ","")
 
         system('python {} {} {} {} {} {} {} {} {} {} {}'.format(file,FEE,MIN_ORDER_PRICE,BUY_STACK,SLEEP_TIME,CHECK_TIME,DAY_CHECK_TIME,MAX_COIN_COUNT,markets,market_count,day_markets))
     except:
-        pass
+        print('Buy Moudle have Error!!')
 
 def sell_worker(file,SLEEP_TIME,CHECK_TIME_SELL,markets,market_count,SELL_MIN_VAL,SELL_STACK):
+    """Sell Module
+
+    Args:
+        file (str): sell module file path
+        SLEEP_TIME (float): delay time
+        CHECK_TIME_SELL (int): time to check the amount of change
+        markets (list): already have coin list
+        market_count (int): total coin number in market
+        SELL_MIN_VAL (float): percent of price to sell
+        SELL_STACK (float): sell module parameter
+    """
     try:
         markets = str(markets).replace(" ","")
         system('python {} {} {} {} {} {} {}'.format(file,SLEEP_TIME,CHECK_TIME_SELL,markets,market_count,SELL_MIN_VAL,SELL_STACK))
     except:
-        pass
+        print('Sell Moudle have Error!!')
 
 def main():
     try:
@@ -130,7 +199,7 @@ def main():
 
             day_markets.append((five_day_line>ten_day_line).min())
 
-        buy_markets,ordered_markets = get_buy_markets()
+        buy_markets,_ = get_buy_markets()
     
         print('start with {}'.format(buy_markets))
         print('start balance : {}'.format(balance_f))
