@@ -8,8 +8,8 @@ This repository was implemented under the theme of **Upbit Won Market Automatic 
    
 ## Installation
    
-Requires Python 3.6 or higher version. [Anaconda] (https://www.anaconda.com/) installation is recommended.  
-This repository is based on the API provided by [PyUpbit] (https://github.com/sharebook-kr/pyupbit). Please familiarize yourself with the basic API in the relevant repository.
+Requires Python 3.6 or higher version. [Anaconda](https://www.anaconda.com/) installation is recommended.  
+This repository is based on the API provided by [PyUpbit](https://github.com/sharebook-kr/pyupbit). Please familiarize yourself with the basic API in the relevant repository.
    
 intall pyupbit, pyjwt
 
