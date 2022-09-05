@@ -1,10 +1,10 @@
 import setuptools
 
 install_requires = [
-   'pyjwt>=2.0.0',
-   'pandas',
-   'requests',
-   'websockets'
+    'pyjwt>=2.0.0',
+    'pandas',
+    'requests',
+    'websockets'
 ]
 
 with open("README.md", "r", encoding='UTF-8') as fh:
